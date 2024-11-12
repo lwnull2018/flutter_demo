@@ -23,7 +23,9 @@ class CommonSelectFormItem extends StatelessWidget {
       contentBuilder: (context) {
         return GestureDetector(
           onTap: () {
-            var result = CommonPicker.showPicker(context, options, value);
+            double height = 300.0;
+            if(options.length < 6) height = 70.0 * options.length ;
+            var result = CommonPicker.showPicker(context, options, value, height: height);
             result.then((selectedValue) {
               if (selectedValue != null &&
                   value != selectedValue) {

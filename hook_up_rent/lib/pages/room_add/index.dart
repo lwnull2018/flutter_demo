@@ -23,14 +23,14 @@ class _RoomAddPageState extends State<RoomAddPage> {
   int floor = 0;
   int orentiedType = 0;
   List<XFile> files = [];
+  int rentType = 0; //合租类型
+  int decorationType = 0; //装修类型
 
   var titleController = TextEditingController();
   var descController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    int rentType = 0; //合租类型
-    int decorationType = 0; //装修类型
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.green,

@@ -13,19 +13,22 @@ class CommonRadioFormItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return CommonFormItem(label: label, contentBuilder: (context) {
       return Container(
+        margin: EdgeInsets.only(left: 10, right: 20 ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children:
-            List.generate(options.length, (index) => Row(
-              children: [
-                Radio(
-                    value: index,
-                    groupValue: value,
-                    onChanged: onChange
-                ),
-                Text(options[index]),
-              ],
-            )),
+            List.generate(
+                options.length,
+                    (index) => Row(
+                  children: [
+                    Radio(
+                        value: index,
+                        groupValue: value,
+                        onChanged: onChange
+                    ),
+                    Text(options[index]),
+                  ],
+                )),
 
         ),
       );

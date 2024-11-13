@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../pages/home/tab_search/dataList.dart';
+import '../pages/home/tab_search/data_list.dart';
 import '../widgets/common_floating_button.dart';
 import '../widgets/room_list_item_widget.dart';
 

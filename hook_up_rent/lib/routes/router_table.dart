@@ -18,7 +18,7 @@ class RouterTable {
   static String registerPath = '/register';
   static String homePath = '/';
   static String notFoundPath = '404';
-  static String roomDetailPath = '/room';
+  static String roomDetailPath = '/roomDetail';
   static String settingPath = '/setting';
   static String roomManagePath = '/roomManage';
   static String roomAddPath = '/roomAdd';
@@ -60,7 +60,7 @@ class RouterTable {
           name = notFoundPath;
         } else if(roomDetailPath == name) {//房屋详情页面路由
           if(settings.arguments != null) {
-            final params = settings.arguments as Map<String, int>;
+            final params = settings.arguments as Map<String, String>;
             return RoomDetailPage(roomId: params['id']!.toString());
           }
         }

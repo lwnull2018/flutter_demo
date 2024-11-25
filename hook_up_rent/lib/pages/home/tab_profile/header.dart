@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:hook_up_rent/utils/scoped_model_helper.dart';
+
+import '../../../scope_model/auth.dart';
 
 var headerTextStyle = const TextStyle(color: Colors.white, fontSize: 18.0);
 
@@ -85,7 +88,7 @@ class TabHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isLogin = true;
+    bool isLogin = ScopedModelHelper.getModel<AuthModel>(context).isLogin;
     return isLogin ? _loginBuilder(context) : _notLoginBuilder(context);
   }
 

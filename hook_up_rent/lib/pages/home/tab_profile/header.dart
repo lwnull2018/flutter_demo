@@ -52,6 +52,9 @@ class TabHeader extends StatelessWidget {
   }
 
   Widget _loginBuilder(BuildContext context) {
+    var userInfo = ScopedModelHelper.getModel<AuthModel>(context).userInfo;
+    var avatar = userInfo?.avatar??'https://gd-hbimg.huaban.com/cc80455c85bd2f7310ba80804ac48228fdc3a36c1080a-G7VV23_fw1200webp';
+    var nicknamee = userInfo?.nickname??'已登陆用户名';
     return Container(
       padding: const EdgeInsets.all(10.0),
       decoration: const BoxDecoration(color: Colors.green),
@@ -60,8 +63,8 @@ class TabHeader extends StatelessWidget {
           Container(
             height: 65.0,
             width: 65.0,
-            child: const CircleAvatar(
-              backgroundImage: NetworkImage('https://gd-hbimg.huaban.com/cc80455c85bd2f7310ba80804ac48228fdc3a36c1080a-G7VV23_fw1200webp'),
+            child: CircleAvatar(
+              backgroundImage: NetworkImage(avatar),
             ),
           ),
           const SizedBox(width: 10.0,),
@@ -74,7 +77,7 @@ class TabHeader extends StatelessWidget {
                     onTap: (){
                       Navigator.of(context).pushNamed('/login');
                     },
-                    child:  Text('已登陆用户名', style: headerTextStyle,),
+                    child:  Text(nicknamee, style: headerTextStyle,),
                   ),
                 ],
               ),

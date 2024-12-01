@@ -51,7 +51,7 @@ class _LoginPageState extends State<LoginPage> {
       Store store = await Store.getInstance();
       //设置缓存
       await store.setString(StoreKeys.token, token);
-      //
+      //设置中间件ScopedModel，通知所有订阅者：用户已登录
       ScopedModelHelper.getModel<AuthModel>(context).login(token, context);
 
       //1秒之后返回上一个页面

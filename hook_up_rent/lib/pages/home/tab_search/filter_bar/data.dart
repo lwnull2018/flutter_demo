@@ -21,6 +21,17 @@ class GeneralType {
   final String id;
 
   GeneralType(this.name, this.id);
+
+  Map<String, String> toJson() {
+    return {
+      'name': name,
+      'id': id,
+    };
+  }
+
+  static fromJson(cityString) {
+    return GeneralType(cityString['name'], cityString['id']);
+  }
 }
 
 

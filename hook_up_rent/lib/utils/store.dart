@@ -2,6 +2,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 enum StoreKeys {
   token,
+  city
 }
 
 //封装 shared_preferences

@@ -1,6 +1,16 @@
+import 'dart:convert';
+
+import 'package:city_pickers/city_pickers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hook_up_rent/config.dart';
+import 'package:hook_up_rent/pages/home/tab_search/filter_bar/data.dart';
+import 'package:hook_up_rent/scope_model/city_model.dart';
+import 'package:hook_up_rent/utils/common_toast.dart';
+import 'package:hook_up_rent/utils/scoped_model_helper.dart';
 import 'package:hook_up_rent/widgets/common_image.dart';
+
+import '../../utils/store.dart';
 
 class SearchBarWidget extends StatefulWidget {
   final bool? shwoLocation;
@@ -39,6 +49,39 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
     });
   }
 
+  _saveCity(GeneralType city) async {
+    //1.保存到ScopedModel里
+    ScopedModelHelper.getModel<CityModel>(context).city = city;
+    //2.保存到本地缓存里
+    var store = await Store.getInstance();
+    var cityString = json.encode(city.toJson());
+    store.setString(StoreKeys.city, cityString);
+  }
+
+  _changeLocation() async {
+    var result = await CityPickers.showCitiesSelector(
+        context: context,
+        theme: ThemeData(primaryColor: Colors.green),
+    );
+    String? cityName = result?.cityName;
+    if(null == cityName) return null;
+    try {
+      var city = Config.availableCitys.firstWhere((element) => cityName.startsWith(element.name));
+      _saveCity(city);
+    } catch(e) {
+      CommonToast.showToast('该城市暂未开通！');
+      return;
+    }
+  }
+
+  _getCity() async {
+    var store = await Store.getInstance();
+    var cityString = await store.getString(StoreKeys.city);
+    if(null == cityString) return;
+    var city = GeneralType.fromJson(json.decode(cityString));
+    ScopedModelHelper.getModel<CityModel>(context).city = city;
+  }
+
   @override
   void initState() {
     _focusNode = FocusNode();
@@ -48,13 +91,22 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
 
   @override
   Widget build(BuildContext context) {
+    var city;
+    try {
+      city = ScopedModelHelper.getModel<CityModel>(context).city;
+    } catch(e) {
+      city = Config.availableCitys.first;
+      _getCity();
+    }
     return Container(
       // padding: EdgeInsets.all(10.0),
       child: Row(
         children: [
           if (widget.shwoLocation != null)
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                _changeLocation();
+              },
               child: Row(
                 children: [
                   Icon(
@@ -62,7 +114,7 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
                     color: Colors.green,
                   ),
                   Text(
-                    '广州',
+                    city.name,
                     style: TextStyle(
                         color: Colors.black,
                         fontSize: 14.0,

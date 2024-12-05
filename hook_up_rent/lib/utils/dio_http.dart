@@ -57,6 +57,11 @@ class DioHttp {
     return response;
   }
 
+  //get请求
+  Future<Response<Map<String, dynamic>>?> get3(String path) async {
+    return await _client?.get(path);
+  }
+
   //post请求
   Future<Response<Map<String, dynamic>>?> post(String path, Map<String, dynamic> data) async {
     // var options = Options(headers: {'Authorization': token});

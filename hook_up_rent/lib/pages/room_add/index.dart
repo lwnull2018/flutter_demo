@@ -1,6 +1,9 @@
-import 'dart:io';
+import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:hook_up_rent/pages/home/tab_search/filter_bar/data.dart';
+import 'package:hook_up_rent/utils/dio_http.dart';
 import 'package:hook_up_rent/widgets/common_floating_button.dart';
 import 'package:hook_up_rent/widgets/common_radio_form_item.dart';
 import 'package:image_picker/image_picker.dart';
@@ -19,6 +22,10 @@ class RoomAddPage extends StatefulWidget {
 }
 
 class _RoomAddPageState extends State<RoomAddPage> {
+  List<GeneralType> floorList = [];
+  List<GeneralType> orentiedList = [];
+  List<GeneralType> roomTypeList = [];
+
   int roomType = 0;
   int floor = 0;
   int orentiedType = 0;
@@ -29,18 +36,47 @@ class _RoomAddPageState extends State<RoomAddPage> {
   var titleController = TextEditingController();
   var descController = TextEditingController();
 
+  _getParams() async {
+    String url = 'houses/params';
+
+    //请求后台数据
+    var res = await DioHttp.of(context).get3(url);
+
+    var data = json.decode(res.toString())['body'];
+    List<GeneralType> floorList = List<GeneralType>.from(
+        data['floor'].map((item) => GeneralType.fromJson(item)));
+
+    List<GeneralType> orentiedList = List<GeneralType>.from(
+        data['orentied'].map((item) => GeneralType.fromJson(item)));
+
+    List<GeneralType> roomTypeList = List<GeneralType>.from(
+        data['roomType'].map((item) => GeneralType.fromJson(item)));
+
+    setState(() {
+      this.floorList = floorList;
+      this.orentiedList = orentiedList;
+      this.roomTypeList = roomTypeList;
+    });
+  }
+
+  @override
+  void initState() {
+    Timer.run(_getParams);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.green,
-        title: Text('房源发布'),
+        title: const Text('房源发布'),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: CommonFloatingButton('提交', () {}),
       body: ListView(
         children: [
-          CommonTitle('房源信息'),
+          const CommonTitle('房源信息'),
           CommonFormItem(
             label: '小区',
             contentBuilder: (context) {
@@ -73,7 +109,8 @@ class _RoomAddPageState extends State<RoomAddPage> {
           CommonSelectFormItem(
             label: '户型',
             value: roomType,
-            options: const ['一室', '二室', '三室', '四室'],
+            // options: const ['一室', '二室', '三室', '四室'],
+            options: roomTypeList.map((e) => e.name).toList(),
             onChange: (val) {
               setState(() {
                 roomType = val;
@@ -83,7 +120,8 @@ class _RoomAddPageState extends State<RoomAddPage> {
           CommonSelectFormItem(
             label: '楼层',
             value: floor,
-            options: const ['高楼层', '中楼层', '低楼层'],
+            // options: const ['高楼层', '中楼层', '低楼层'],
+            options: floorList.map((e) => e.name).toList(),
             onChange: (val) {
               setState(() {
                 floor = val;
@@ -92,7 +130,8 @@ class _RoomAddPageState extends State<RoomAddPage> {
           ),
           CommonSelectFormItem(
               label: '朝向',
-              options: const ['东', '南', '西', '北'],
+              // options: const ['东', '南', '西', '北'],
+              options: orentiedList.map((item) => item.name).toList(),
               value: orentiedType,
               onChange: (val) {
                 setState(() {
@@ -133,7 +172,7 @@ class _RoomAddPageState extends State<RoomAddPage> {
             ),
           ),
           CommonTitle('房源配置'),
-          RoomAppliance(onChange: (context){}),
+          RoomAppliance(onChange: (context) {}),
           CommonTitle('房源描述'),
           Container(
             margin: EdgeInsets.only(bottom: 150.0),

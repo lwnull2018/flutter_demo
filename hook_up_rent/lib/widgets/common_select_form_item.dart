@@ -18,6 +18,7 @@ class CommonSelectFormItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if(options.isEmpty) return Container();
     return CommonFormItem(
       label: label,
       contentBuilder: (context) {

@@ -109,13 +109,13 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
               },
               child: Row(
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.room,
                     color: Colors.green,
                   ),
                   Text(
                     city.name,
-                    style: TextStyle(
+                    style: const TextStyle(
                         color: Colors.black,
                         fontSize: 14.0,
                         fontWeight: FontWeight.w600
@@ -128,8 +128,10 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
             Padding(
               padding: const EdgeInsets.only(left: 8.0),
               child: GestureDetector(
-                onTap: () {},
-                child: Icon(
+                onTap: () {
+                  widget.onCancel!();
+                },
+                child: const Icon(
                   Icons.chevron_left,
                   color: Colors.black87,
                 ),
@@ -137,7 +139,7 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
             ),
           Expanded(
               child: Container(
-            padding: EdgeInsets.only(left: 10.0, right: 10.0),
+            padding: const EdgeInsets.only(left: 10.0, right: 10.0),
             child: Container(
               height: 40.0,
               decoration: BoxDecoration(
@@ -153,7 +155,9 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
                   if(null == widget.onSearchSubmit) {
                     _focusNode.unfocus();//失去焦点
                   }
-                  widget.onSearch!();
+                  if(widget.onSearch != null) {
+                    widget.onSearch!();
+                  }
                 },
                 onSubmitted: widget.onSearchSubmit,
                 textInputAction: TextInputAction.search,//弹起的键盘会有个search按钮
@@ -163,8 +167,8 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
                     hintText: '请输入搜索词',
                     hintStyle: TextStyle(color: Colors.grey, fontSize: 14.0),
                     //采用 prefixIcon 的图标右侧间距会比较大，所以改用icon组件
-                    icon: Padding(
-                      padding: const EdgeInsets.only(left: 8.0),
+                    icon: const Padding(
+                      padding: EdgeInsets.only(left: 8.0),
                       child: Icon(
                         Icons.search,
                         color: Colors.grey,
@@ -173,7 +177,7 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
                     ),
                     suffixIcon: GestureDetector(
                       onTap: _onClean,
-                      child: Icon(
+                      child: const Icon(
                         Icons.clear,
                         color: Colors.grey,
                         size: 18.0,
@@ -184,8 +188,10 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
           )),
           if (widget.onCancel != null)
             GestureDetector(
-              onTap: () {},
-              child: Text(
+              onTap: () {
+                widget.onCancel!();
+              },
+              child: const Text(
                 '取消',
                 style: TextStyle(
                     color: Colors.black,
@@ -196,7 +202,7 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
           if (widget.showMap != null)
             GestureDetector(
               onTap: () {},
-              child: CommonImage(
+              child: const CommonImage(
                 src: 'static/icons/widget_search_bar_map.png',
               ),
             )

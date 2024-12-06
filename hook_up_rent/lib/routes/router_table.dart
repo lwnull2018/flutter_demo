@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:hook_up_rent/room_detail/index.dart';
 
 import '../common/screen_arguments.dart';
+import '../pages/community_picker.dart';
 import '../pages/home/index.dart';
 import '../pages/login.dart';
 import '../pages/not_found.dart';
@@ -22,6 +23,7 @@ class RouterTable {
   static String settingPath = '/setting';
   static String roomManagePath = '/roomManage';
   static String roomAddPath = '/roomAdd';
+  static String communityPicker = '/communityPicker';
 
 
   static Map<String, WidgetBuilder> routeTables = {
@@ -46,6 +48,9 @@ class RouterTable {
 
     //房屋详情页 -- 传递参数
     roomDetailPath: (context, {params}) =>  RoomDetailPage(roomId: params),
+
+    //小区选择器页面
+    communityPicker: (context) => const CommunityPickerPage(),
 
   };
 

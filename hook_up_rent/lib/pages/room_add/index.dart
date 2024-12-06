@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:hook_up_rent/models/community.dart';
 import 'package:hook_up_rent/pages/home/tab_search/filter_bar/data.dart';
 import 'package:hook_up_rent/utils/dio_http.dart';
 import 'package:hook_up_rent/widgets/common_floating_button.dart';
@@ -22,6 +23,9 @@ class RoomAddPage extends StatefulWidget {
 }
 
 class _RoomAddPageState extends State<RoomAddPage> {
+
+  Community? community;
+
   List<GeneralType> floorList = [];
   List<GeneralType> orentiedList = [];
   List<GeneralType> roomTypeList = [];
@@ -83,18 +87,24 @@ class _RoomAddPageState extends State<RoomAddPage> {
               return Container(
                 child: GestureDetector(
                   onTap: () {
-                    Navigator.of(context).pushNamed('/search');
+                    // Navigator.of(context).pushNamed('/search');
+                    var result = Navigator.of(context).pushNamed('/communityPicker');
+                    result.then((value) {
+                      //拿到返回值
+                      if(value!=null) setState(() {
+                        community = value! as Community?;
+                      });
+                    });
                   },
                   behavior: HitTestBehavior.translucent, //设置点击空白区域也生效
                   child: Container(
                     height: 40.0,
-                    child: const Row(
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          '请选择小区',
-                          style:
-                              TextStyle(fontSize: 16.0, color: Colors.black87),
+                          community?.name?? '请选择小区',
+                          style: const TextStyle(fontSize: 16.0, color: Colors.black87),
                         ),
                         Icon(Icons.keyboard_arrow_right),
                       ],
@@ -104,8 +114,8 @@ class _RoomAddPageState extends State<RoomAddPage> {
               );
             },
           ),
-          CommonFormItem(label: '租金', hitText: '请输入租金', suffixText: '元/月'),
-          CommonFormItem(label: '大小', hitText: '请输入房屋大小', suffixText: '平方米'),
+          const CommonFormItem(label: '租金', hitText: '请输入租金', suffixText: '元/月'),
+          const CommonFormItem(label: '大小', hitText: '请输入房屋大小', suffixText: '平方米'),
           CommonSelectFormItem(
             label: '户型',
             value: roomType,
@@ -156,11 +166,11 @@ class _RoomAddPageState extends State<RoomAddPage> {
                   decorationType = index;
                 });
               }),
-          CommonTitle('房源头像'),
+          const CommonTitle('房源头像'),
           CommonImagePicker(onChange: (List<XFile> files) {
             files = files;
           }),
-          CommonTitle('房源标题'),
+          const CommonTitle('房源标题'),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
             child: TextField(
@@ -171,11 +181,11 @@ class _RoomAddPageState extends State<RoomAddPage> {
               ),
             ),
           ),
-          CommonTitle('房源配置'),
+          const CommonTitle('房源配置'),
           RoomAppliance(onChange: (context) {}),
-          CommonTitle('房源描述'),
+          const CommonTitle('房源描述'),
           Container(
-            margin: EdgeInsets.only(bottom: 150.0),
+            margin: const EdgeInsets.only(bottom: 150.0),
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
             child: TextField(
               maxLines: 10,

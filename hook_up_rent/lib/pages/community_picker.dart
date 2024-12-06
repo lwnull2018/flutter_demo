@@ -21,7 +21,7 @@ class _CommunityPickerPageState extends State<CommunityPickerPage> {
       appBar: AppBar(title: const Text('小区选择'),),
       body: SafeArea(
         minimum: const EdgeInsets.all(10.0),
-        child: ListView.separated(
+        child: ListView.separated(//分隔列表
           itemCount: list.length,
           itemBuilder: (context, index){
             return GestureDetector(
@@ -35,6 +35,7 @@ class _CommunityPickerPageState extends State<CommunityPickerPage> {
               ),
             );
           },
+          //分隔符
           separatorBuilder: (_context, _) => const Divider(),
         ),
       ),

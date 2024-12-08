@@ -20,6 +20,7 @@ class _TabIndexPageState extends State<TabIndexPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: SearchBarWidget(
             shwoLocation: true,
             showMap: true,

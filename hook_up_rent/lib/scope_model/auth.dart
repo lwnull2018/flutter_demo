@@ -49,10 +49,12 @@ class AuthModel extends Model {
   }
 
   //退出登录--通知订阅者
-  void logout() {
+  void logout() async {
     _token = '';
     _userInfo = null;
     notifyListeners();
+    Store store = await Store.getInstance();
+    await store.setString(StoreKeys.token, '');
   }
 
 }

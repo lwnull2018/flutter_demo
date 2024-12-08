@@ -97,6 +97,7 @@ flutter:
     - static/images/home_profile_user.png
     - static/images/home_profile_order.png
     - static/images/home_profile_wallet.png
+    - static/images/loading.jpg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 

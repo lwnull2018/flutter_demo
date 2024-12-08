@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:hook_up_rent/routes/router_table.dart';
 import 'package:hook_up_rent/scope_model/auth.dart';
 import 'package:hook_up_rent/utils/common_toast.dart';
 import 'package:hook_up_rent/utils/scoped_model_helper.dart';
@@ -43,14 +44,18 @@ class DioHttp {
           var status = json.decode(res.toString())['status'];
           if(404 == status) {
             CommonToast.showToast('接口地址错误！当前接口：${res.requestOptions.path}');
-            // return res;
+            return handler.next(res);
           }
           //认为是token过期
           if(status.toString().startsWith('4')) {
             ScopedModelHelper.getModel<AuthModel>(context).logout();
+            //如果是启动页则直接返回
+            if(ModalRoute.of(context)?.settings.name == RouterTable.loading) {
+              return handler.next(res);
+            }
             CommonToast.showToast('登录过期');
             Navigator.of(context).pushNamed(Routes.login);
-            // return res;
+            return handler.next(res);
           }
           //继续执行响应
           return handler.next(res);

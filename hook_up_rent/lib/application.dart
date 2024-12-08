@@ -28,6 +28,7 @@ class Application extends StatelessWidget {
             theme: ThemeData(primaryColor: Colors.green),
             // home: LoginPage(),
             onGenerateRoute: RouterTable.onGenerateRoute,
+            initialRoute: RouterTable.loading,
             // routes: {
             //   "/": (cotext) => const HomePage(),
             //   "/login": (cotext) => const LoginPage(),

@@ -1,6 +1,7 @@
 
 
 import 'package:flutter/cupertino.dart';
+import 'package:hook_up_rent/pages/loading.dart';
 import 'package:hook_up_rent/room_detail/index.dart';
 
 import '../common/screen_arguments.dart';
@@ -24,6 +25,7 @@ class RouterTable {
   static String roomManagePath = '/roomManage';
   static String roomAddPath = '/roomAdd';
   static String communityPicker = '/communityPicker';
+  static String loading = '/loading';
 
 
   static Map<String, WidgetBuilder> routeTables = {
@@ -51,6 +53,9 @@ class RouterTable {
 
     //小区选择器页面
     communityPicker: (context) => const CommunityPickerPage(),
+
+    //小区选择器页面
+    loading: (context) => const LoadingPage(),
 
   };
 

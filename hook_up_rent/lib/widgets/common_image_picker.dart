@@ -26,9 +26,11 @@ class CommonImagePicker extends StatefulWidget {
 class _CommonImagePickerState extends State<CommonImagePicker> {
   List<XFile> files = [];
 
-  final ImagePicker _picker = ImagePicker();
   //从相册获取图片
   _pickImage() async {
+
+    final ImagePicker _picker = ImagePicker();
+
     final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
     if (null == image) return;
     setState(() {

@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:hook_up_rent/models/community.dart';
 import 'package:hook_up_rent/pages/home/tab_search/filter_bar/data.dart';
 import 'package:hook_up_rent/utils/dio_http.dart';
+import 'package:hook_up_rent/utils/upload_images.dart';
 import 'package:hook_up_rent/widgets/common_floating_button.dart';
 import 'package:hook_up_rent/widgets/common_radio_form_item.dart';
 import 'package:image_picker/image_picker.dart';
@@ -25,6 +27,7 @@ class RoomAddPage extends StatefulWidget {
 class _RoomAddPageState extends State<RoomAddPage> {
 
   Community? community;
+  List<File> images = [];
 
   List<GeneralType> floorList = [];
   List<GeneralType> orentiedList = [];
@@ -41,7 +44,7 @@ class _RoomAddPageState extends State<RoomAddPage> {
   var descController = TextEditingController();
 
   _getParams() async {
-    String url = 'houses/params';
+    String url = '/houses/params';
 
     //请求后台数据
     var res = await DioHttp.of(context).get3(url);
@@ -69,6 +72,10 @@ class _RoomAddPageState extends State<RoomAddPage> {
     super.initState();
   }
 
+  _submit() async {
+    await updateImages(context, files);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,7 +84,7 @@ class _RoomAddPageState extends State<RoomAddPage> {
         title: const Text('房源发布'),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: CommonFloatingButton('提交', () {}),
+      floatingActionButton: CommonFloatingButton('提交', _submit),
       body: ListView(
         children: [
           const CommonTitle('房源信息'),
@@ -169,6 +176,9 @@ class _RoomAddPageState extends State<RoomAddPage> {
           const CommonTitle('房源头像'),
           CommonImagePicker(onChange: (List<XFile> files) {
             files = files;
+            // setState(() {
+            //   files = files;
+            // });
           }),
           const CommonTitle('房源标题'),
           Container(

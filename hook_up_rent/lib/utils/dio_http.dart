@@ -1,7 +1,13 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:hook_up_rent/scope_model/auth.dart';
+import 'package:hook_up_rent/utils/common_toast.dart';
+import 'package:hook_up_rent/utils/scoped_model_helper.dart';
 
 import '../config.dart';
+import '../routes.dart';
 
 //公共网络请求类
 class DioHttp {
@@ -30,7 +36,29 @@ class DioHttp {
           contentType: 'application/json;Charset=UTF-8',
           // extra: {'context': context},//额外参数
         );
+
+        //拦截器
+      Interceptor interceptor = InterceptorsWrapper(
+        onResponse: (Response res, ResponseInterceptorHandler handler) {
+          var status = json.decode(res.toString())['status'];
+          if(404 == status) {
+            CommonToast.showToast('接口地址错误！当前接口：${res.requestOptions.path}');
+            // return res;
+          }
+          //认为是token过期
+          if(status.toString().startsWith('4')) {
+            ScopedModelHelper.getModel<AuthModel>(context).logout();
+            CommonToast.showToast('登录过期');
+            Navigator.of(context).pushNamed(Routes.login);
+            // return res;
+          }
+          //继续执行响应
+          return handler.next(res);
+        }
+      );
+
       _client = Dio(option);
+      _client?.interceptors.add(interceptor);
     }
 
 

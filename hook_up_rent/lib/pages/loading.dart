@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:hook_up_rent/routes.dart';
 import 'package:hook_up_rent/scope_model/auth.dart';
 import 'package:hook_up_rent/utils/scoped_model_helper.dart';
 
@@ -13,10 +12,7 @@ class LoadingPage extends StatefulWidget {
   State<LoadingPage> createState() => _LoadingPageState();
 }
 
-
-
 class _LoadingPageState extends State<LoadingPage> {
-
 
   @override
   Widget build(BuildContext context) {

@@ -54,7 +54,7 @@ class RouterTable {
     //小区选择器页面
     communityPicker: (context) => const CommunityPickerPage(),
 
-    //小区选择器页面
+    //启动页
     loading: (context) => const LoadingPage(),
 
   };
